@@ -1,16 +1,18 @@
 import os
 from flask import Flask, request, jsonify
+from flask import Flask
 from keras.models import load_model
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required
-# from flask_bcrypt import Bcrypt
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, create_access_token
+from flask_swagger_ui import get_swaggerui_blueprint
 from flask_mysqldb import MySQL
 from PIL import Image
 from io import BytesIO
 import numpy as np
 import base64
 import bcrypt
-
 app = Flask(__name__)
+
+
 jwt = JWTManager(app)
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'rahasia')
@@ -157,6 +159,18 @@ def predict():
         return jsonify({'error': 'Internal Server Error'}), 500
 
 
+SWAGGER_URL = '/swagger'  # URL for exposing Swagger UI (without trailing '/')
+API_URL = '/static/swagger.json'  # Our API url (can of course be a local resource)
+
+swaggerui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,  # Swagger UI static files will be mapped to '{SWAGGER_URL}/dist/'
+    API_URL,
+    config={  # Swagger UI config overrides
+        'app_name': "foodwise application"
+    },
+)
+
+app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
 if __name__ == '__main__':
     app.run(debug=True)
