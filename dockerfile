@@ -20,9 +20,9 @@ RUN pip install -r requirements.txt
 # Copy the current directory contents into the container at /app
 # EXPOSE 5000
 # Cleanup
-# RUN apt-get autoremove -y && \
-#     apt-get clean && \
-#     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Expose the port that the app will run on
 
