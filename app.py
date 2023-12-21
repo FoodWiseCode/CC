@@ -1,15 +1,17 @@
 import os
+os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
 from flask import Flask, request, jsonify
 from flask import Flask
-from keras.models import load_model
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, create_access_token
 from flask_swagger_ui import get_swaggerui_blueprint
 from flask_mysqldb import MySQL
 from PIL import Image
 from io import BytesIO
+import tensorflow as tf,keras
 import numpy as np
 import base64
 import bcrypt
+
 app = Flask(__name__)
 
 
@@ -25,10 +27,10 @@ app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'foodwise'
 mysql = MySQL(app)
 
-
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 # Load the Keras model
-model_predict = load_model('model-images2.h5')
-model_predict.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+model_predict = tf.keras.models.load_model('model-images2.h5')
+# model_predict.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 class_names = ['banana peels', 'egg shells', 'orange peels', 'rotten apples', 'rotten bananas', 'rotten cucumbers', 'rotten oranges', 'rotten tomatoes']
 
@@ -173,4 +175,4 @@ swaggerui_blueprint = get_swaggerui_blueprint(
 app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT",8080)))
+    app.run( host="0.0.0.0", port=int(os.environ.get("PORT",8080)))
