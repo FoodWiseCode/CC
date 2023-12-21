@@ -2,9 +2,11 @@
 - name: 'gcr.io/cloud-builders/docker'
   dir: 'foodwise'
   args: ['build', '-t', 'us-east1-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/svcfoodwise:$COMMIT_SHA', '.']
+
 # Push the container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us-east1-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/svcfoodwise:$COMMIT_SHA']
+
 # Deploy container image to Cloud Run
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
@@ -24,5 +26,7 @@
     - '--max-instances'
     - '1'
     - '--allow-unauthenticated'
+
+# Ensure proper alignment for the 'images' section
 images:
 - 'us-east1-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/svcfoodwise'
