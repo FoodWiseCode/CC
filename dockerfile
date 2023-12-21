@@ -1,5 +1,5 @@
 # Use the official Python image as a base image
-FROM python:3.11-slim
+FROM python:3.9-slim
 
 
 ENV PYTHONUNBUFFERED TRUE
@@ -31,4 +31,4 @@ RUN apt-get autoremove -y && \
 
 
 # Command to run on container start
-CMD gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 app:app
+CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 app:app
