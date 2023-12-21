@@ -21,9 +21,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'rahasia')
 app.config['SECRET_KEY'] = SECRET_KEY
 
 # MySQL configurations
-app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_HOST'] = '34.128.102.38'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_PASSWORD'] = 'root'
 app.config['MYSQL_DB'] = 'foodwise'
 mysql = MySQL(app)
 
