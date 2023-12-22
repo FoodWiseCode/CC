@@ -17,19 +17,24 @@ For enrtypoint you can use
 1. User Registration
 Endpoint: /register
 Method: POST
-http://127.0.0.1:5000/register
+http://127.0.0.1:8080/register
 
 2. User Login
 Endpoint: /login
 Method: POST
-http://127.0.0.1:5000/login
+http://127.0.0.1:8080/login
 
-2. Predict Image
+3. Predict Image
 Endpoint: /predict
 Method: POST
-http://127.0.0.1:5000/predict
+http://127.0.0.1:8080/predict
 
 note: you must bring JWT authorization token
 
+
+3. Swagger
+Endpoint: /swagger
+Method: GET
+http://127.0.0.1:8080/Swagger
 
 
