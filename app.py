@@ -1,5 +1,6 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
+os.environ['TF_ENABLE_ONEDNN_OPTS']='0'
 from flask import Flask, request, jsonify
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, create_access_token
 from flask_swagger_ui import get_swaggerui_blueprint
@@ -8,6 +9,20 @@ import bcrypt
 from PIL import Image
 from io import BytesIO
 import tensorflow as tf,keras
+# import tensorflow.python as tf
+# from keras.src import  backend
+# from keras.src.saving import saving_lib
+# from keras.src.saving.legacy import serialization as legacy_serialization
+# from keras.src.saving.serialization_lib import deserialize_keras_object
+# from keras.src.saving.serialization_lib import serialize_keras_object
+# from  keras.src.utils import losses_utils
+# from keras.src.utils import tf_utils
+
+# from tensorflow.python.ops.ragged import ragged_map_ops
+# from tensorflow.python.ops.ragged import ragged_util
+# LABEL_DTYPES_FOR_LOSSES = { tf.losses.sparse_softmax_cross_entropy: "int32", tf.keras.losses.sparse_categorical_crossentropy: "int32", }
+# from keras import kera
+
 import numpy as np
 import base64
 
@@ -16,12 +31,19 @@ app = Flask(__name__)
 jwt = JWTManager(app)
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'rahasia')
-app.config["MYSQL_USER"] = 'root'
-app.config["MYSQL_PASSWORD"] = 'root'
-app.config["MYSQL_DB"] = 'foodwise'
-app.config["MYSQL_UNIX_SOCKET"] = '/cloudsql/bangkit2023-402907:asia-southeast2:foodwise'
-# Extra configs, optional:
-app.config["MYSQL_CURSORCLASS"] = "DictCursor"
+# app.config["MYSQL_USER"] = 'root'
+# app.config["MYSQL_PASSWORD"] = 'root'
+# app.config["MYSQL_DB"] = 'foodwise'
+# # app.config["MYSQL_UNIX_SOCKET"] = '/cloudsql/bangkit2023-402907:asia-southeast2:foodwise'
+# # Extra configs, optional:
+# app.config["MYSQL_CURSORCLASS"] = "DictCursor"
+app.config['SECRET_KEY'] = SECRET_KEY
+
+# MySQL configurations
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = 'foodwise'
 
 
 mysql = MySQL(app)
@@ -31,7 +53,9 @@ mysql = MySQL(app)
 # Load the Keras model
 model_predict = tf.keras.models.load_model('model-images2.h5')
 # model_predict.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-
+# loss = tf.compat.v1.losses.sparse_softmax_cross_entropy(labels, logits)
+# is_eager = tf.compat.v1.executing_eagerly_outside_functions()
+# pooled = tf.nn.max_pool2d(input, ksize=[1, k_height, k_width, 1], strides=[1, stride_y, stride_x, 1], padding='SAME')
 class_names = ['banana peels', 'egg shells', 'orange peels', 'rotten apples', 'rotten bananas', 'rotten cucumbers', 'rotten oranges', 'rotten tomatoes']
 
 
@@ -84,14 +108,14 @@ def login ():
 
         # Check if the user exists
         if user:
-            print(user)
-            print(user[0]['username'])
-            hashed_password = user[0]['password']
+            # print(user)
+            # print(user[0][3])
+            hashed_password = user[0][3]
             # print(user[3])
             if bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8')):
                 # print(user[3])
                     # Jika password valid, buat token JWT
-                token = create_access_token(identity={'username': user[0]['username']})
+                token = create_access_token(identity={'username': user[0][2]})
                 return jsonify({
                     'message': 'Login Success',
                     'token_jwt': token
