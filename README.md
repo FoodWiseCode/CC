@@ -28,6 +28,7 @@ http://127.0.0.1:5000/login
 Endpoint: /predict
 Method: POST
 http://127.0.0.1:5000/predict
+
 note: you must bring JWT authorization token
 
 
