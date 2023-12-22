@@ -1,4 +1,5 @@
 ### CC-Foodwise-API
+Foodwise API is designed to provide access to the Foodwise application functionalities. It allows users to register, log in, and predict food ingredients based on images.
 
 Require Install:
 
