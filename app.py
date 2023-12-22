@@ -1,33 +1,33 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
 from flask import Flask, request, jsonify
-from flask import Flask
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, create_access_token
 from flask_swagger_ui import get_swaggerui_blueprint
 from flask_mysqldb import MySQL
+import bcrypt
 from PIL import Image
 from io import BytesIO
 import tensorflow as tf,keras
 import numpy as np
 import base64
-import bcrypt
 
 app = Flask(__name__)
-
 
 jwt = JWTManager(app)
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'rahasia')
-app.config['SECRET_KEY'] = SECRET_KEY
+app.config["MYSQL_USER"] = 'root'
+app.config["MYSQL_PASSWORD"] = 'root'
+app.config["MYSQL_DB"] = 'foodwise'
+app.config["MYSQL_UNIX_SOCKET"] = '/cloudsql/bangkit2023-402907:asia-southeast2:foodwise'
+# Extra configs, optional:
+app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
-# MySQL configurations
-app.config['MYSQL_HOST'] = '34.128.102.38'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'root'
-app.config['MYSQL_DB'] = 'foodwise'
+
 mysql = MySQL(app)
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
+
+# os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 # Load the Keras model
 model_predict = tf.keras.models.load_model('model-images2.h5')
 # model_predict.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
@@ -80,15 +80,18 @@ def login ():
         password = request.json['password']
         db = mysql.connection.cursor()
         db.execute("SELECT * FROM users WHERE username = %s", (username,))
-        user = db.fetchone()
+        user = db.fetchall()
 
         # Check if the user exists
         if user:
-            hashed_password = user[3] 
+            print(user)
+            print(user[0]['username'])
+            hashed_password = user[0]['password']
+            # print(user[3])
             if bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8')):
                 # print(user[3])
                     # Jika password valid, buat token JWT
-                token = create_access_token(identity={'username': user[2]})
+                token = create_access_token(identity={'username': user[0]['username']})
                 return jsonify({
                     'message': 'Login Success',
                     'token_jwt': token
