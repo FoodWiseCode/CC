@@ -7,8 +7,8 @@ ENV PYTHONUNBUFFERED TRUE
 ENV APP_HOME /app
 WORKDIR $APP_HOME
 # Install build dependencies
-# RUN apt-get update && \
-#     apt-get install -y build-essential libmariadb-dev-compat libmariadb-dev pkg-config
+RUN apt-get update && \
+    apt-get install -y build-essential libmariadb-dev-compat libmariadb-dev pkg-config
 COPY . ./
 
 # Copy the requirements file into the container at /app
