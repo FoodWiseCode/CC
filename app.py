@@ -1,6 +1,6 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
-os.environ['TF_ENABLE_ONEDNN_OPTS']='0'
+# os.environ['TF_ENABLE_ONEDNN_OPTS']='0'
 from flask import Flask, request, jsonify
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, create_access_token
 from flask_swagger_ui import get_swaggerui_blueprint
@@ -8,7 +8,8 @@ from flask_mysqldb import MySQL
 import bcrypt
 from PIL import Image
 from io import BytesIO
-import tensorflow as tf,keras
+# import tensorflow as tf
+from tensorflow import keras
 
 import numpy as np
 import base64
@@ -38,11 +39,8 @@ mysql = MySQL(app)
 
 # os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 # Load the Keras model
-model_predict = tf.keras.models.load_model('model-images2.h5')
-# model_predict.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-# loss = tf.compat.v1.losses.sparse_softmax_cross_entropy(labels, logits)
-# is_eager = tf.compat.v1.executing_eagerly_outside_functions()
-# pooled = tf.nn.max_pool2d(input, ksize=[1, k_height, k_width, 1], strides=[1, stride_y, stride_x, 1], padding='SAME')
+model_predict = keras.models.load_model('model-images2.h5')
+
 class_names = ['banana peels', 'egg shells', 'orange peels', 'rotten apples', 'rotten bananas', 'rotten cucumbers', 'rotten oranges', 'rotten tomatoes']
 
 
@@ -95,8 +93,7 @@ def login ():
 
         # Check if the user exists
         if user:
-            # print(user)
-            # print(user[0][3])
+
             hashed_password = user[0][3]
             # print(user[3])
             if bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8')):
