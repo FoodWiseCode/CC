@@ -32,9 +32,9 @@ http://127.0.0.1:8080/predict
 note: you must bring JWT authorization token
 
 
-3. Swagger
+3. For documentation and testing you can try
 Endpoint: /swagger
 Method: GET
-http://127.0.0.1:8080/Swagger
+https://helloworld-cnznppwbaa-et.a.run.app/swagger
 
 
