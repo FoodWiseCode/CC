@@ -21,7 +21,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'rahasia')
 app.config["MYSQL_USER"] = 'root'
 app.config["MYSQL_PASSWORD"] = 'root'
 app.config["MYSQL_DB"] = 'foodwise'
-app.config["MYSQL_UNIX_SOCKET"] = '/cloudsql/bangkit2023-402907:asia-southeast2:foodwise'
+app.config["MYSQL_UNIX_SOCKET"] = '/cloudsql/sapient-spark-404310:asia-southeast2:foodwise'
 # Extra configs, optional:
 app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 app.config['SECRET_KEY'] = SECRET_KEY
