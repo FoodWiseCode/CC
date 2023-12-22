@@ -9,19 +9,6 @@ import bcrypt
 from PIL import Image
 from io import BytesIO
 import tensorflow as tf,keras
-# import tensorflow.python as tf
-# from keras.src import  backend
-# from keras.src.saving import saving_lib
-# from keras.src.saving.legacy import serialization as legacy_serialization
-# from keras.src.saving.serialization_lib import deserialize_keras_object
-# from keras.src.saving.serialization_lib import serialize_keras_object
-# from  keras.src.utils import losses_utils
-# from keras.src.utils import tf_utils
-
-# from tensorflow.python.ops.ragged import ragged_map_ops
-# from tensorflow.python.ops.ragged import ragged_util
-# LABEL_DTYPES_FOR_LOSSES = { tf.losses.sparse_softmax_cross_entropy: "int32", tf.keras.losses.sparse_categorical_crossentropy: "int32", }
-# from keras import kera
 
 import numpy as np
 import base64
@@ -31,19 +18,19 @@ app = Flask(__name__)
 jwt = JWTManager(app)
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'rahasia')
-# app.config["MYSQL_USER"] = 'root'
-# app.config["MYSQL_PASSWORD"] = 'root'
-# app.config["MYSQL_DB"] = 'foodwise'
-# # app.config["MYSQL_UNIX_SOCKET"] = '/cloudsql/bangkit2023-402907:asia-southeast2:foodwise'
-# # Extra configs, optional:
-# app.config["MYSQL_CURSORCLASS"] = "DictCursor"
+app.config["MYSQL_USER"] = 'root'
+app.config["MYSQL_PASSWORD"] = 'root'
+app.config["MYSQL_DB"] = 'foodwise'
+# app.config["MYSQL_UNIX_SOCKET"] = '/cloudsql/bangkit2023-402907:asia-southeast2:foodwise'
+# Extra configs, optional:
+app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 app.config['SECRET_KEY'] = SECRET_KEY
 
 # MySQL configurations
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'foodwise'
+# app.config['MYSQL_HOST'] = 'localhost'
+# app.config['MYSQL_USER'] = 'root'
+# app.config['MYSQL_PASSWORD'] = ''
+# app.config['MYSQL_DB'] = 'foodwise'
 
 
 mysql = MySQL(app)
